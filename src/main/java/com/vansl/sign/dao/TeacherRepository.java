@@ -15,7 +15,7 @@ public interface TeacherRepository  extends JpaRepository<Teacher,Long> {
      * @param name
      * @return
      */
-    @Query("from Teacher u where u.name=:name")
+    @Query("from Teacher t where t.name=:name")
     Teacher findTeacherByName(@Param("name") String name);
 
 }

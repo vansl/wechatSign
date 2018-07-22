@@ -18,10 +18,7 @@ public class StudentService {
 
     @Autowired
     CourseRepository courseRepository;
-    /**
-    * @param id
-    * @return
-    */
+
     public Student findStudentById(Long id){
         return studentRepository.findById(id).get();
     }
@@ -38,4 +35,10 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
+    /*
+     * 查询某个学生的所有课程
+     * */
+    public Set<Course> findCoursesByStudent(Long studentId){
+        return studentRepository.findCoursesByStudent(studentId);
+    }
 }

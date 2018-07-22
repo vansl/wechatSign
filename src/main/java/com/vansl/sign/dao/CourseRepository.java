@@ -13,15 +13,12 @@ import java.util.Set;
 public interface CourseRepository extends JpaRepository<Course,Long> {
 
     /**
-     * 复杂查询使用@Query编写sql
-     * 根据姓名查询教师
-     * @param name
-     * @return
+     * 根据名称查询课程
      */
-    @Query("from Course u where u.name=:name")
+    @Query("from Course c where c.name=:name")
     Course findCourseByName(@Param("name") String name);
 
-    @Query("from Course u where u.teacherId=:teacherId")
+    @Query("from Course c where c.teacherId=:teacherId")
     Set<Course> findCoursesByTeacher(@Param("teacherId") Long teacherId);
 
 }

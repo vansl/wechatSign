@@ -1,5 +1,6 @@
 package com.vansl.sign.controller;
 
+import com.vansl.sign.entity.Course;
 import com.vansl.sign.entity.Student;
 import com.vansl.sign.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +42,13 @@ public class StudentController {
         return studentService.findAll();
     }
 
+
+    /*
+     * 查询某个学生的所有课程
+     * */
+    @GetMapping(value = "/courses/sid/{studentId}")
+    public Set<Course> queryStudentsByCourse(@PathVariable Long studentId){
+        return studentService.findCoursesByStudent(studentId);
+    }
 
 }
