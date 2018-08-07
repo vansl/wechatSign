@@ -1,6 +1,9 @@
 package com.vansl.sign.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Table(name = "t_student")
@@ -17,6 +20,19 @@ public class Student extends BaseEntity{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @OneToMany(mappedBy="student")
+    @JsonIgnore
+    private List<CourseStudent> courseStudents;
+
+
+    public List<CourseStudent> getCourseStudents() {
+        return courseStudents;
+    }
+
+    public void setCourseStudents(List<CourseStudent> courseStudents) {
+        this.courseStudents = courseStudents;
     }
 
 }

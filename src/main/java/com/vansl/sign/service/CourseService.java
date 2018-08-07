@@ -6,8 +6,8 @@ import com.vansl.sign.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class CourseService {
@@ -19,17 +19,14 @@ public class CourseService {
         return courseRepository.findById(id).get();
     }
 
-    public void save(Course Course){
-        courseRepository.save(Course);
+    public void save(Course course){
+        courseRepository.save(course);
     }
 
-    public Set<Course> findCoursesByTeacher(Long teacherId){
-        return courseRepository.findCoursesByTeacher(teacherId);
-    }
-
-    public Set<Student> findStudentsByCourse(Long courseId){
+    public List<Student> findStudentsByCourse(Long courseId){
         Course course = findCourseById(courseId);
-        Set<Student> students = course.getStudents();
+        List<Student> students = new ArrayList<>();
+        course.getCourseStudents().forEach(x-> students.add(x.getStudent()));
         return students;
     }
 

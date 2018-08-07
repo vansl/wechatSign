@@ -1,5 +1,7 @@
 package com.vansl.sign.controller;
 
+import com.vansl.sign.vo.HttpResult;
+import com.vansl.sign.entity.Course;
 import com.vansl.sign.entity.Teacher;
 import com.vansl.sign.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,33 +18,48 @@ public class TeacherController {
     @Autowired
     TeacherService teacherService;
 
-    @GetMapping("/getString")
-    public String getString() {
-        return "Hello 张三";
-    }
-
     @PostMapping(value = "/teachers",params = {"name"})
-    public void add(String name) {
-        Teacher teacher = new Teacher();
-        teacher.setName(name);
-        teacherService.save(teacher);
+    public HttpResult add(String name) {
+        HttpResult result = new HttpResult();
+        try{
+            Teacher teacher = new Teacher();
+            teacher.setName(name);
+            teacherService.save(teacher);
+            result.setStatus("ok");
+        }catch (Exception e){
+            result.setStatus("wrong");
+        }finally {
+            return result;
+        }
 
     }
 
-    @GetMapping(value = "/teacher",params = "name")
-    public Teacher queryTeacherByName(String name){
-        return teacherService.findTeacherByName(name);
-    }
 
     @GetMapping(value = "/teacher/{id}")
-    public Teacher queryTeacherById(@PathVariable Long id){
-        System.out.printf("id");
-        return teacherService.findTeacherById(id);
+    public HttpResult queryTeacherById(@PathVariable Long id){
+         HttpResult<Teacher> result = new HttpResult<>();
+         result.setData(teacherService.findTeacherById(id));
+         result.setStatus("ok");
+         return result;
     }
 
     @GetMapping(value = "/teachers")
-    public List<Teacher> queryAll(){
-        return teacherService.findAll();
+    public HttpResult queryAll(){
+        HttpResult<List<Teacher>> result = new HttpResult<>();
+        result.setData(teacherService.findAll());
+        result.setStatus("ok");
+        return result;
     }
 
+
+    /*
+     * 根据教师Id查询教师的所有课程
+     * */
+    @GetMapping(value = "/teacher/{teacherId}/courses")
+    public HttpResult queryCoursesByTeacher(@PathVariable Long teacherId){
+        HttpResult<List<Course>> result = new HttpResult<>();
+        result.setData(teacherService.findCoursesByTeacher(teacherId));
+        result.setStatus("ok");
+        return result;
+    }
 }

@@ -1,6 +1,7 @@
 package com.vansl.sign.service;
 
 import com.vansl.sign.dao.TeacherRepository;
+import com.vansl.sign.entity.Course;
 import com.vansl.sign.entity.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,10 @@ public class TeacherService {
 
     public List<Teacher> findAll(){
         return teacherRepository.findAll();
+    }
+
+    public List<Course> findCoursesByTeacher(Long teacherId){
+        return teacherRepository.findCoursesByTeacher(teacherId);
     }
 
 }

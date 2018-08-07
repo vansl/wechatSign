@@ -7,7 +7,9 @@ import com.vansl.sign.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -38,7 +40,10 @@ public class StudentService {
     /*
      * 查询某个学生的所有课程
      * */
-    public Set<Course> findCoursesByStudent(Long studentId){
-        return studentRepository.findCoursesByStudent(studentId);
+    public List<Course> findCoursesByStudent(Long studentId){
+        Student student = findStudentById(studentId);
+        List<Course> courses = new ArrayList<>();
+        student.getCourseStudents().forEach(x->courses.add(x.getCourse()));
+        return courses;
     }
 }

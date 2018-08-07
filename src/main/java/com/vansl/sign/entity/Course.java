@@ -1,11 +1,15 @@
 package com.vansl.sign.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Table(name = "t_course")
 @Entity
 public class Course extends BaseEntity{
+
+    public Course(){}
 
     /* 课程名称 */
     @Column
@@ -15,12 +19,9 @@ public class Course extends BaseEntity{
     @Column(name = "teacher_id")
     private Long teacherId;
 
-    /* 参加课程的学生 */
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "t_course_student", joinColumns = {
-            @JoinColumn(name = "course_id")}, inverseJoinColumns = {
-            @JoinColumn(name = "student_id")})
-    private Set<Student> students;
+    @OneToMany(mappedBy="course")
+    @JsonIgnore
+    private List<CourseStudent> courseStudents;
 
     public String getName() {
         return name;
@@ -38,12 +39,11 @@ public class Course extends BaseEntity{
         this.teacherId = teacherId;
     }
 
-    public Set<Student> getStudents() {
-        return students;
+    public List<CourseStudent> getCourseStudents() {
+        return courseStudents;
     }
 
-    public void setStudents(Set<Student> students) {
-        this.students = students;
+    public void setCourseStudents(List<CourseStudent> courseStudents) {
+        this.courseStudents = courseStudents;
     }
-
 }
